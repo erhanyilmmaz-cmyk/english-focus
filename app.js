@@ -25,19 +25,19 @@ function distract(v){var wc=v.term.split(/\s+/).length,L=v.term.length;return sh
 function choices(v){return shuffle([v.term].concat(distract(v))).slice(0,3)}
 function startSession(t){t=t||"daily";var n=t==="slack"?3:t==="quick"?1:t==="weekly"?20:10;session={items:queue(n),index:0,type:t};showScreen("practice");render()}
 function render(){
- var w=$("#practiceWrap");if(session.index>=session.items.length){w.innerHTML='<div class="panel done"><div class="big">✓</div><h2>Session complete.</h2><p>Nice. You redirected the reflex.</p><button class="btn primary" onclick="showScreen(\\'home\\')">Back home</button></div>';return}
+ var w=$("#practiceWrap");if(session.index>=session.items.length){w.innerHTML='<div class="panel done"><div class="big">✓</div><h2>Session complete.</h2><p>Nice. You redirected the reflex.</p><button class="btn primary" onclick="showScreen(\'home\')">Back home</button></div>';return}
  var v=session.items[session.index],t=session.type==="fill"?"fill":session.type==="recall"?"recall":session.type==="use"?"use":(gap(v)?"fill":(v.meaning||v.context)?"recall":"use"), opts=(t==="fill"||t==="recall")?choices(v):[];session.current={v:v,t:t,opts:opts};
  var prompt=t==="fill"?gap(v):(t==="recall"?(v.meaning?"Which word or phrase best matches this meaning?":"Which word or phrase best matches this context?"):"Write one natural sentence from your own life using:");
  var cue=t==="recall"?(v.meaning||v.context):"";
  var optsHtml=opts.map(function(o,i){return '<button class="choice" data-i="'+i+'" onclick="choose('+i+')"><span class="choice-letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>'}).join("");
- w.innerHTML='<div class="practice-head"><button class="iconbtn" onclick="showScreen(\\'home\\')">←</button><div><b>'+(session.index+1)+' / '+session.items.length+'</b><div class="progress"><i style="width:'+Math.round(session.index/session.items.length*100)+'%"></i></div></div><button class="iconbtn" onclick="skip()">Skip</button></div>'+
+ w.innerHTML='<div class="practice-head"><button class="iconbtn" onclick="showScreen(\'home\')">←</button><div><b>'+(session.index+1)+' / '+session.items.length+'</b><div class="progress"><i style="width:'+Math.round(session.index/session.items.length*100)+'%"></i></div></div><button class="iconbtn" onclick="skip()">Skip</button></div>'+
  '<div class="card"><div><div class="challenge-type">'+(t==="fill"?"FILL THE GAP":t==="recall"?"RECALL":"USE IT")+'</div><div class="prompt">'+esc(prompt)+'</div>'+
  (t==="fill"?'<div class="semantic-cue">'+esc(gap(v))+'</div>':'')+(cue?'<div class="semantic-cue">'+esc(cue)+'</div>':'')+
  (t==="use"?'<div class="target-term">'+esc(v.term)+'</div><textarea class="textarea" placeholder="Type your sentence here…"></textarea>':'')+
  (opts.length?'<div class="choice-list">'+optsHtml+'</div><div id="choiceResult"></div>':'')+'</div><div>'+
  (opts.length?'':'<button id="revealBtn" class="btn primary full" onclick="reveal()">Show example</button>')+
  '<div id="answer" class="answer"><div class="answer-box"><h3>Answer</h3><p>'+esc(v.term)+'</p><div class="clue"><strong>Türkçe anlam:</strong> '+esc(v.meaning||"Bu kelime için Türkçe anlam henüz eklenmemiş.")+'</div>'+(v.context?'<div class="clue"><strong>Context:</strong> '+esc(v.context)+'</div>':'')+'</div>'+
- '<div class="rating"><button onclick="rate(\\'again\\')" class="rate again">Again</button><button onclick="rate(\\'hard\\')" class="rate">Hard</button><button onclick="rate(\\'good\\')" class="rate">Good</button><button onclick="rate(\\'easy\\')" class="rate easy">Easy</button></div></div></div></div>';
+ '<div class="rating"><button onclick="rate(\'again\')" class="rate again">Again</button><button onclick="rate(\'hard\')" class="rate">Hard</button><button onclick="rate(\'good\')" class="rate">Good</button><button onclick="rate(\'easy\')" class="rate easy">Easy</button></div></div></div></div>';
 }
 function choose(i){var v=session.current.v,opts=session.current.opts;$$(".choice").forEach(function(b,j){if(opts[j].toLowerCase()===v.term.toLowerCase())b.classList.add("correct");if(j===i&&opts[j].toLowerCase()!==v.term.toLowerCase())b.classList.add("wrong");b.disabled=true});$("#choiceResult").textContent=opts[i].toLowerCase()===v.term.toLowerCase()?"✓ Exactly.":"Not quite — the correct answer is highlighted.";$("#answer").classList.add("show")}
 function reveal(){$("#answer").classList.add("show");if($("#revealBtn"))$("#revealBtn").remove()}
