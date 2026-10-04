@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>English Focus</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">E</div><span>English Focus</span></div>
+    <button class="iconbtn" onclick="openSettings()">•••</button>
+  </header>
+
+  <main id="home" class="screen active">
+    <section class="hero">
+      <div class="eyebrow">Attention replacement</div>
+      <h1>Open this before you open Slack.</h1>
+      <p class="sub">Three quick recalls instead of another reflex check. Your vocabulary is already here — the habit is what we're training now.</p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="startSession('slack')">⚡ I was about to open Slack</button>
+        <button class="btn secondary" onclick="startSession('daily')">Daily 10</button>
+      </div>
+    </section>
+    <div class="stats-row">
+      <div class="stat"><div class="num" id="streak">0</div><div class="lab">day streak</div></div>
+      <div class="stat"><div class="num" id="today">0</div><div class="lab">reviews today</div></div>
+      <div class="stat"><div class="num" id="due">0</div><div class="lab">due now</div></div>
+    </div>
+
+    <div class="section-title"><h2>Practice</h2><span><b id="deckCount">0</b> unique entries</span></div>
+    <div class="grid">
+      <button class="mode" onclick="startSession('quick')"><div class="mode-icon">◉</div><b>Quick hit</b><small>One card. Under a minute.</small></button>
+      <button class="mode" onclick="startSession('recall')"><div class="mode-icon">↺</div><b>Recall</b><small>Clue first. Produce the phrase.</small></button>
+      <button class="mode" onclick="startSession('fill')"><div class="mode-icon">⌁</div><b>Fill the gap</b><small>Choose the phrase that best fits the gap.</small></button>
+      <button class="mode" onclick="startSession('use')"><div class="mode-icon">✎</div><b>Use it</b><small>Make it active with your own sentence.</small></button>
+      <button class="mode" onclick="startSession('weekly')"><div class="mode-icon">▦</div><b>Weekly review</b><small>20 due + weak items.</small></button>
+      <button class="mode" onclick="showScreen('stats')"><div class="mode-icon">↗</div><b>Weak words</b><small><span id="masteredHome">0</span> currently mastered.</small></button>
+    </div>
+    <div class="rule"><strong>Your rule for V1:</strong> whenever you catch yourself opening Slack, Instagram, YouTube or LinkedIn without a clear reason, do the 3-card button first. You can still open the other app afterward.</div>
+  </main>
+
+  <main id="practice" class="screen"><div id="practiceWrap"></div></main>
+
+  <main id="library" class="screen">
+    <div class="section-title" style="margin-top:4px"><h2>Library</h2><span id="libCount"></span></div>
+    <input id="search" class="search" placeholder="Search words, phrases or examples…">
+    <div class="filters">
+      <button class="chip active" onclick="setFilter('all',this)">All</button>
+      <button class="chip" onclick="setFilter('weak',this)">Weak</button>
+      <button class="chip" onclick="setFilter('new',this)">Unseen</button>
+      <button class="chip" onclick="setFilter('word',this)">Words</button>
+      <button class="chip" onclick="setFilter('phrase',this)">Phrases</button>
+    </div>
+    <div class="library-list" id="libraryList"></div>
+  </main>
+
+  <main id="stats" class="screen">
+    <div class="section-title" style="margin-top:4px"><h2>Your progress</h2><span>stored on this device</span></div>
+    <div class="kpi-grid">
+      <div class="kpi"><strong id="totalReviews">0</strong><span>Total reviews</span></div>
+      <div class="kpi"><strong id="seen">0</strong><span>Entries seen</span></div>
+      <div class="kpi"><strong id="mastered">0</strong><span>Mastered</span></div>
+      <div class="kpi"><strong id="statsStreak">0</strong><span>Day streak</span></div>
+    </div>
+    <div class="section-title"><h2>Last 7 days</h2><span>reviews</span></div>
+    <div class="panel" id="weekBars"></div>
+    <div class="section-title"><h2>Weakest right now</h2><span>based on ratings</span></div>
+    <div class="weak-list" id="weakList"></div>
+  </main>
+</div>
+
+<nav class="nav">
+  <button class="active" data-screen="home"><span>⌂</span>Home</button>
+  <button data-screen="practice"><span>◈</span>Practice</button>
+  <button data-screen="library"><span>⌕</span>Library</button>
+  <button data-screen="stats"><span>↗</span>Stats</button>
+</nav>
+
+<div class="modal" id="settings" onclick="if(event.target===this)closeSettings()">
+  <div class="modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center"><div><div class="eyebrow">V1 settings</div><h2>English Focus</h2></div><button class="iconbtn" onclick="closeSettings()">✕</button></div>
+    <p>This version uses a snapshot of your Drive vocabulary and stores learning progress only in this browser. No login, no backend, no AI scoring yet.</p>
+    <div class="setting"><div><b>Export progress</b><div class="sub" style="font-size:12px">Download a backup JSON.</div></div><button class="iconbtn" onclick="exportProgress()">Export</button></div>
+    <div class="setting"><div><b>Reset progress</b><div class="sub" style="font-size:12px">Clear reviews and streaks on this device.</div></div><button class="iconbtn" onclick="resetProgress()">Reset</button></div>
+  </div>
+</div>
+
+<div class="onboard" id="onboard">
+  <div class="onboard-card">
+    <div class="eyebrow">English Focus · V1.4</div>
+    <h2>Don't fight the tap. Redirect it.</h2>
+    <p class="sub">This app is designed as a replacement behavior, not another study plan.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><p>Catch the automatic urge to open Slack, Instagram, YouTube or LinkedIn.</p></div>
+      <div class="step"><div class="n">2</div><p>Open English Focus first and do three cards. Usually under two minutes.</p></div>
+      <div class="step"><div class="n">3</div><p>Then decide deliberately whether you still want to open the other app.</p></div>
+    </div>
+    <button class="btn primary" style="width:100%" onclick="closeOnboard();startSession('slack')">Start with 3 cards</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="data-01.js"></script><script src="data-02.js"></script><script src="data-03.js"></script><script src="data-04.js"></script><script src="data-05.js"></script><script src="data-06.js"></script><script src="data-07.js"></script><script src="data-08.js"></script><script src="data-09.js"></script><script src="data-10.js"></script><script src="data-11.js"></script><script src="data-12.js"></script><script src="data-13.js"></script><script src="data-14.js"></script><script src="data-15.js"></script><script src="data-16.js"></script><script src="data-17.js"></script><script src="data-18.js"></script><script src="data-19.js"></script><script src="data-20.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
+</body>
+</html>
