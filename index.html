@@ -107,10 +107,10 @@
 </div>
 
 <nav class="nav premium-nav">
-  <button class="active" data-screen="home"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-6v-6h-4v6H4z" fill="currentColor"/></svg></span>Home</button>
-  <button data-screen="practice"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 9-13h-6z" fill="currentColor"/></svg></span>Practice</button>
-  <button data-screen="library"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 5c4 0 6 1 8 3v11c-2-2-4-3-8-3V5zm16 0c-4 0-6 1-8 3v11c2-2 4-3 8-3V5z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>Library</button>
-  <button data-screen="stats"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="3" height="7" rx="1" fill="currentColor"/><rect x="10.5" y="9" width="3" height="11" rx="1" fill="currentColor"/><rect x="17" y="5" width="3" height="15" rx="1" fill="currentColor"/></svg></span>Stats</button>
+  <button class="active" data-screen="home" onclick="showScreen('home')"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-6v-6h-4v6H4z" fill="currentColor"/></svg></span>Home</button>
+  <button data-screen="practice" onclick="startSession('daily')"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 9-13h-6z" fill="currentColor"/></svg></span>Practice</button>
+  <button data-screen="library" onclick="showScreen('library')"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 5c4 0 6 1 8 3v11c-2-2-4-3-8-3V5zm16 0c-4 0-6 1-8 3v11c2-2 4-3 8-3V5z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>Library</button>
+  <button data-screen="stats" onclick="showScreen('stats')"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="3" height="7" rx="1" fill="currentColor"/><rect x="10.5" y="9" width="3" height="11" rx="1" fill="currentColor"/><rect x="17" y="5" width="3" height="15" rx="1" fill="currentColor"/></svg></span>Stats</button>
 </nav>
 
 <div class="modal" id="settings" onclick="if(event.target===this)closeSettings()">
