@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0d12">
+<meta name="theme-color" content="#07182a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>English Focus</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=151">
 </head>
 <body>
 <div class="app">
@@ -19,31 +19,61 @@
   </header>
 
   <main id="home" class="screen active">
-    <section class="hero">
-      <div class="eyebrow">Attention replacement</div>
-      <h1>Open this before you open Slack.</h1>
-      <p class="sub">Three quick recalls instead of another reflex check. Your vocabulary is already here — the habit is what we're training now.</p>
-      <div class="hero-actions">
-        <button class="btn primary" onclick="startSession('slack')">⚡ I was about to open Slack</button>
-        <button class="btn secondary" onclick="startSession('daily')">Daily 10</button>
+    <section class="hero hero-premium">
+      <div class="hero-copy">
+        <h1>Open this before<br>you open <em>Slack.</em></h1>
+        <p class="sub">A few minutes of focused vocabulary practice to make your workday easier.</p>
+      </div>
+      <div class="hero-scene" aria-hidden="true">
+        <svg viewBox="0 0 420 290" role="img">
+          <defs>
+            <linearGradient id="nightWindow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a2440"/><stop offset="1" stop-color="#04111f"/></linearGradient>
+            <radialGradient id="lampGlow" cx=".72" cy=".38" r=".48"><stop stop-color="#e8bd62" stop-opacity=".6"/><stop offset="1" stop-color="#e8bd62" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="420" height="290" rx="30" fill="url(#nightWindow)"/>
+          <rect x="222" y="20" width="164" height="132" rx="12" fill="#071526" stroke="#17314c"/>
+          <g fill="#d4a654" opacity=".65">
+            <rect x="246" y="48" width="8" height="12" rx="2"/><rect x="275" y="72" width="8" height="12" rx="2"/><rect x="308" y="52" width="8" height="12" rx="2"/><rect x="341" y="82" width="8" height="12" rx="2"/><rect x="369" y="60" width="8" height="12" rx="2"/>
+          </g>
+          <ellipse cx="318" cy="110" rx="110" ry="100" fill="url(#lampGlow)"/>
+          <path d="M331 23h48l-11 18h-26z" fill="#101722"/><rect x="351" y="40" width="6" height="73" rx="3" fill="#1d2632"/><path d="M326 109h58l-12 22h-34z" fill="#1b222c" stroke="#c79d56"/>
+          <rect x="214" y="218" width="186" height="16" rx="8" fill="#583c24"/><rect x="232" y="202" width="150" height="16" rx="8" fill="#26354a"/><rect x="246" y="187" width="133" height="15" rx="7" fill="#152237"/>
+          <g stroke="#d1a45d" stroke-width="2" fill="none"><path d="M285 182c0-34 4-58 2-88"/><path d="M287 114c-18-4-31-18-35-37 20 4 34 17 35 37z"/><path d="M286 129c18-4 31-18 35-37-20 4-34 17-35 37z"/><path d="M285 148c-16-2-28-13-33-29 18 2 29 12 33 29z"/></g>
+          <path d="M252 170h67l-8 43h-50z" fill="#30271f" stroke="#a47f48"/>
+          <ellipse cx="191" cy="210" rx="42" ry="10" fill="#020914" opacity=".7"/>
+          <path d="M164 164h54v55h-54z" rx="12" fill="#0d2138"/><path d="M218 177c22 0 22 28 0 28" fill="none" stroke="#a67f4a" stroke-width="5"/>
+          <ellipse cx="191" cy="164" rx="27" ry="7" fill="#132e4c" stroke="#b18b52"/>
+        </svg>
+      </div>
+      <div class="hero-actions premium-actions">
+        <button class="btn primary slack-cta" onclick="startSession('slack')">
+          <span class="slack-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><g fill="currentColor"><rect x="13" y="2" width="6" height="12" rx="3"/><rect x="13" y="18" width="6" height="12" rx="3"/><rect x="2" y="13" width="12" height="6" rx="3"/><rect x="18" y="13" width="12" height="6" rx="3"/><circle cx="10" cy="10" r="3"/><circle cx="22" cy="10" r="3"/><circle cx="10" cy="22" r="3"/><circle cx="22" cy="22" r="3"/></g></svg>
+          </span>
+          <span>I was about to open Slack</span><span class="chev">›</span>
+        </button>
+        <button class="btn secondary daily-cta" onclick="startSession('daily')">
+          <span class="round-icon"><svg viewBox="0 0 24 24"><path d="M8 5l10 7-10 7z" fill="currentColor"/></svg></span>
+          <span>Daily 10</span><span class="chev">›</span>
+        </button>
       </div>
     </section>
-    <div class="stats-row">
-      <div class="stat"><div class="num" id="streak">0</div><div class="lab">day streak</div></div>
-      <div class="stat"><div class="num" id="today">0</div><div class="lab">reviews today</div></div>
-      <div class="stat"><div class="num" id="due">0</div><div class="lab">due now</div></div>
+
+    <div class="stats-row premium-stats">
+      <div class="stat"><span class="stat-icon gold"><svg viewBox="0 0 24 24"><path d="M13 2s1 4-2 7c-2 2-4 4-4 8a5 5 0 0010 0c0-3-2-5-4-7 0 3-2 4-2 4 1-5 2-8 2-12z" fill="currentColor"/></svg></span><div><div class="num" id="streak">0</div><div class="lab">day streak</div></div></div>
+      <div class="stat"><span class="stat-icon blue"><svg viewBox="0 0 24 24"><path d="M4 5c4 0 6 1 8 3v11c-2-2-4-3-8-3V5zm16 0c-4 0-6 1-8 3v11c2-2 4-3 8-3V5z" fill="currentColor"/></svg></span><div><div class="num" id="today">0</div><div class="lab">reviews today</div></div></div>
+      <div class="stat"><span class="stat-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><div class="num" id="due">0</div><div class="lab">due now</div></div></div>
     </div>
 
-    <div class="section-title"><h2>Practice</h2><span><b id="deckCount">0</b> unique entries</span></div>
-    <div class="grid">
-      <button class="mode" onclick="startSession('quick')"><div class="mode-icon">◉</div><b>Quick hit</b><small>One card. Under a minute.</small></button>
-      <button class="mode" onclick="startSession('recall')"><div class="mode-icon">↺</div><b>Recall</b><small>Clue first. Produce the phrase.</small></button>
-      <button class="mode" onclick="startSession('fill')"><div class="mode-icon">⌁</div><b>Fill the gap</b><small>Choose the phrase that best fits the gap.</small></button>
-      <button class="mode" onclick="startSession('use')"><div class="mode-icon">✎</div><b>Use it</b><small>Make it active with your own sentence.</small></button>
-      <button class="mode" onclick="startSession('weekly')"><div class="mode-icon">▦</div><b>Weekly review</b><small>20 due + weak items.</small></button>
-      <button class="mode" onclick="showScreen('stats')"><div class="mode-icon">↗</div><b>Weak words</b><small><span id="masteredHome">0</span> currently mastered.</small></button>
+    <div class="section-title premium-title"><h2>Practice</h2><span>All practice modes ›</span></div>
+    <div class="grid premium-grid">
+      <button class="mode" onclick="startSession('quick')"><span class="mode-icon gold"><svg viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 9-13h-6z" fill="currentColor"/></svg></span><span class="mode-copy"><b>Quick hit</b><small>5 new words<br>in 2 minutes</small></span><span class="chev">›</span></button>
+      <button class="mode" onclick="startSession('recall')"><span class="mode-icon blue"><svg viewBox="0 0 24 24"><path d="M9 4a3 3 0 00-3 3v1a3 3 0 00-2 3 3 3 0 002 3v1a3 3 0 003 3m6-14a3 3 0 013 3v1a3 3 0 012 3 3 3 0 01-2 3v1a3 3 0 01-3 3M9 4v14m6-14v14M9 8h6M9 12h6M9 16h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="mode-copy"><b>Recall</b><small>See the word.<br>Say the meaning.</small></span><span class="chev">›</span></button>
+      <button class="mode" onclick="startSession('fill')"><span class="mode-icon blue"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="mode-copy"><b>Fill the gap</b><small>Complete real<br>sentences.</small></span><span class="chev">›</span></button>
+      <button class="mode" onclick="startSession('use')"><span class="mode-icon gold"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10.5" r="1" fill="currentColor"/><circle cx="12" cy="10.5" r="1" fill="currentColor"/><circle cx="15" cy="10.5" r="1" fill="currentColor"/></svg></span><span class="mode-copy"><b>Use it</b><small>Write your own<br>sentences.</small></span><span class="chev">›</span></button>
+      <button class="mode" onclick="startSession('weekly')"><span class="mode-icon gold"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v5M16 3v5M4 10h16" stroke="currentColor" stroke-width="1.8"/><path d="M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="mode-copy"><b>Weekly review</b><small>Strengthen<br>what you've learned.</small></span><span class="chev">›</span></button>
+      <button class="mode" onclick="showScreen('stats')"><span class="mode-icon blue"><svg viewBox="0 0 24 24"><rect x="5" y="13" width="3" height="7" rx="1" fill="currentColor"/><rect x="10.5" y="9" width="3" height="11" rx="1" fill="currentColor"/><rect x="16" y="5" width="3" height="15" rx="1" fill="currentColor"/></svg></span><span class="mode-copy"><b>Weak words</b><small>Focus on what<br>you find hard.</small></span><span class="chev">›</span><span id="masteredHome" hidden>0</span></button>
     </div>
-    <div class="rule"><strong>Your rule for V1:</strong> whenever you catch yourself opening Slack, Instagram, YouTube or LinkedIn without a clear reason, do the 3-card button first. You can still open the other app afterward.</div>
   </main>
 
   <main id="practice" class="screen"><div id="practiceWrap"></div></main>
@@ -76,11 +106,11 @@
   </main>
 </div>
 
-<nav class="nav">
-  <button class="active" data-screen="home"><span>⌂</span>Home</button>
-  <button data-screen="practice"><span>◈</span>Practice</button>
-  <button data-screen="library"><span>⌕</span>Library</button>
-  <button data-screen="stats"><span>↗</span>Stats</button>
+<nav class="nav premium-nav">
+  <button class="active" data-screen="home"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-6v-6h-4v6H4z" fill="currentColor"/></svg></span>Home</button>
+  <button data-screen="practice"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 9-13h-6z" fill="currentColor"/></svg></span>Practice</button>
+  <button data-screen="library"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 5c4 0 6 1 8 3v11c-2-2-4-3-8-3V5zm16 0c-4 0-6 1-8 3v11c2-2 4-3 8-3V5z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>Library</button>
+  <button data-screen="stats"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="3" height="7" rx="1" fill="currentColor"/><rect x="10.5" y="9" width="3" height="11" rx="1" fill="currentColor"/><rect x="17" y="5" width="3" height="15" rx="1" fill="currentColor"/></svg></span>Stats</button>
 </nav>
 
 <div class="modal" id="settings" onclick="if(event.target===this)closeSettings()">
