@@ -14,3 +14,10 @@ body{padding-bottom:90px}.app{max-width:1180px;margin:auto;padding:24px}.topbar{
 @media(max-width:520px){.grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(3,1fr)}.stat{padding:12px}.num{font-size:24px}.hero h1{font-size:40px}.card{border-radius:20px;padding:18px}.practice-head{grid-template-columns:auto 1fr auto;gap:8px}.progress{width:100px}}
 
 .cue-label{margin-top:18px;color:#7f8ba3;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+
+.brand-home{border:0;background:transparent;color:var(--text);padding:0;cursor:pointer;text-align:left;font:inherit}
+.brand-home:active{transform:scale(.985)}
+.cue-label{color:var(--cyan);font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:13px}
+.answer-label-tr{color:var(--accent)}
+.answer-label-definition{color:var(--cyan)}
+.answer-label-example{color:#b9a8ff}
