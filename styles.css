@@ -21,3 +21,53 @@ body{padding-bottom:90px}.app{max-width:1180px;margin:auto;padding:24px}.topbar{
 .answer-label-tr{color:var(--accent)}
 .answer-label-definition{color:var(--cyan)}
 .answer-label-example{color:#b9a8ff}
+
+/* iOS Home Screen PWA safe-area + larger bottom navigation */
+body{
+  padding-top:env(safe-area-inset-top);
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+  padding-bottom:calc(110px + env(safe-area-inset-bottom));
+}
+.topbar{
+  padding-top:8px;
+}
+.brand-home{
+  position:relative;
+  z-index:3;
+  min-height:58px;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.nav{
+  left:max(12px, env(safe-area-inset-left));
+  right:max(12px, env(safe-area-inset-right));
+  bottom:max(10px, env(safe-area-inset-bottom));
+  transform:none;
+  width:auto;
+  max-width:none;
+  justify-content:space-between;
+  padding:10px;
+  border-radius:24px;
+}
+.nav button{
+  flex:1 1 0;
+  min-width:0;
+  min-height:64px;
+  padding:10px 6px;
+  font-size:13px;
+  border-radius:18px;
+}
+.nav span{
+  font-size:21px;
+  margin-bottom:3px;
+}
+@media(max-width:520px){
+  .app{padding-top:14px}
+  .topbar{margin-bottom:24px}
+  .nav{
+    left:max(10px, env(safe-area-inset-left));
+    right:max(10px, env(safe-area-inset-right));
+  }
+  .nav button{min-height:66px;font-size:13px}
+}
