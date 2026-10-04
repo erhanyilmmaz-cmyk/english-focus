@@ -17,22 +17,23 @@ function day(d){return (d||new Date()).toISOString().slice(0,10)}
 function streak(){var n=0,d=new Date();if(!(state.days[day(d)]>0))d=new Date(Date.now()-DAY);while(state.days[day(d)]>0){n++;d=new Date(d.getTime()-DAY)}return n}
 function home(){$("#deckCount").textContent=VOCAB.length;$("#streak").textContent=streak();$("#today").textContent=state.days[day()]||0;$("#due").textContent=VOCAB.filter(v=>P(v.id).seen&&P(v.id).due<=Date.now()).length;$("#masteredHome").textContent=VOCAB.filter(v=>P(v.id).seen>=3&&P(v.id).interval>=7).length}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
-function queue(n){var due=VOCAB.filter(v=>P(v.id).seen&&P(v.id).due<=Date.now()),un=VOCAB.filter(v=>!P(v.id).seen),seen=VOCAB.filter(v=>P(v.id).seen),m=new Map();shuffle(due).concat(shuffle(un),shuffle(seen)).forEach(v=>m.set(v.id,v));return Array.from(m.values()).slice(0,n)}
+function eligible(v,t){if(t==="fill")return !!gap(v);if(t==="recall")return !!(v.meaning||v.context);return true}
+function queue(n,t){var pool=VOCAB.filter(v=>eligible(v,t)),due=pool.filter(v=>P(v.id).seen&&P(v.id).due<=Date.now()),un=pool.filter(v=>!P(v.id).seen),seen=pool.filter(v=>P(v.id).seen),m=new Map();shuffle(due).concat(shuffle(un),shuffle(seen)).forEach(v=>m.set(v.id,v));return Array.from(m.values()).slice(0,n)}
 function showScreen(n){$$(".screen").forEach(x=>x.classList.remove("active"));$("#"+n).classList.add("active");$$(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.screen===n));if(n==="library")library();if(n==="stats")stats();window.scrollTo(0,0)}
 function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function gap(v){if(!v.context)return"";var pos=v.context.toLowerCase().indexOf(v.term.toLowerCase());if(pos<0)return"";return v.context.slice(0,pos)+"________"+v.context.slice(pos+v.term.length)}
 function distract(v){var wc=v.term.split(/\s+/).length,L=v.term.length;return shuffle(VOCAB.filter(x=>x.id!==v.id&&Math.abs(x.term.split(/\s+/).length-wc)<=1&&Math.abs(x.term.length-L)<18)).slice(0,2).map(x=>x.term)}
 function choices(v){return shuffle([v.term].concat(distract(v))).slice(0,3)}
-function startSession(t){t=t||"daily";var n=t==="slack"?3:t==="quick"?1:t==="weekly"?20:10;session={items:queue(n),index:0,type:t};showScreen("practice");render()}
+function startSession(t){t=t||"daily";var n=t==="slack"?3:t==="quick"?1:t==="weekly"?20:10;session={items:queue(n,t),index:0,type:t};showScreen("practice");render()}
 function render(){
  var w=$("#practiceWrap");if(session.index>=session.items.length){w.innerHTML='<div class="panel done"><div class="big">✓</div><h2>Session complete.</h2><p>Nice. You redirected the reflex.</p><button class="btn primary" onclick="showScreen(\'home\')">Back home</button></div>';return}
  var v=session.items[session.index],t=session.type==="fill"?"fill":session.type==="recall"?"recall":session.type==="use"?"use":(gap(v)?"fill":(v.meaning||v.context)?"recall":"use"), opts=(t==="fill"||t==="recall")?choices(v):[];session.current={v:v,t:t,opts:opts};
- var prompt=t==="fill"?gap(v):(t==="recall"?(v.meaning?"Which word or phrase best matches this meaning?":"Which word or phrase best matches this context?"):"Write one natural sentence from your own life using:");
+ var prompt=t==="fill"?"Choose the word or phrase that completes the sentence:":(t==="recall"?(v.meaning?"Which word or phrase best matches this meaning?":"Which word or phrase best matches this context?"):"Write one natural sentence from your own life using:");
  var cue=t==="recall"?(v.meaning||v.context):"";
  var optsHtml=opts.map(function(o,i){return '<button class="choice" data-i="'+i+'" onclick="choose('+i+')"><span class="choice-letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>'}).join("");
  w.innerHTML='<div class="practice-head"><button class="iconbtn" onclick="showScreen(\'home\')">←</button><div><b>'+(session.index+1)+' / '+session.items.length+'</b><div class="progress"><i style="width:'+Math.round(session.index/session.items.length*100)+'%"></i></div></div><button class="iconbtn" onclick="skip()">Skip</button></div>'+
  '<div class="card"><div><div class="challenge-type">'+(t==="fill"?"FILL THE GAP":t==="recall"?"RECALL":"USE IT")+'</div><div class="prompt">'+esc(prompt)+'</div>'+
- (t==="fill"?'<div class="semantic-cue">'+esc(gap(v))+'</div>':'')+(cue?'<div class="semantic-cue">'+esc(cue)+'</div>':'')+
+ (t==="fill"?'<div class="cue-label">Sentence</div><div class="semantic-cue">'+esc(gap(v))+'</div>':'')+(cue?'<div class="cue-label">'+(v.meaning?"Meaning":"Context")+'</div><div class="semantic-cue">'+esc(cue)+'</div>':'')+
  (t==="use"?'<div class="target-term">'+esc(v.term)+'</div><textarea class="textarea" placeholder="Type your sentence here…"></textarea>':'')+
  (opts.length?'<div class="choice-list">'+optsHtml+'</div><div id="choiceResult"></div>':'')+'</div><div>'+
  (opts.length?'':'<button id="revealBtn" class="btn primary full" onclick="reveal()">Show example</button>')+
